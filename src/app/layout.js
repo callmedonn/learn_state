@@ -4,6 +4,7 @@ import cx from "classnames";
 import Header from "../components/layout/header";
 import Sidebar from "../components/layout/sidebar";
 import Footer from "../components/layout/footer";
+import { GlobalStateProvider } from "../utils/globalState";
 
 export default function RootLayout({ children }) {
   return (
@@ -12,12 +13,14 @@ export default function RootLayout({ children }) {
         <title>Layouting Spotify</title>
       </head>
       <body className={`${cx(poppins, poppins.className)}`}>
-        <div className="flex">
-          <Sidebar />
-          <Header />
-        </div>
-        <div>{children}</div>
-        <Footer />
+        <GlobalStateProvider>
+          <div className="flex">
+            <Sidebar />
+            <Header />
+          </div>
+          <div>{children}</div>
+          <Footer />
+        </GlobalStateProvider>
       </body>
     </html>
   );

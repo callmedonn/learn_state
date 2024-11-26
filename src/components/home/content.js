@@ -2,10 +2,13 @@
 
 import CardMusic from "../atoms/cardMusic";
 import ButtonStyleOne from "../atoms/bottonStyleOne";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useGlobalState } from "../../utils/globalState";
 
 export default function Content() {
   const [active, setActive] = useState(false);
+  const { globalState, setGlobalState } = useGlobalState();
 
   const data = [
     {
@@ -49,6 +52,14 @@ export default function Content() {
     setActive(!active);
   };
 
+  useEffect(() => {
+    console.log("tester jalan dong");
+
+    return () => {
+      console.log("Anda keluar halaman");
+    };
+  }, []);
+
   return (
     <section className="flex mt-[100px]">
       <div className="w-[20%]"></div>
@@ -65,6 +76,16 @@ export default function Content() {
               active ? "bg-red-500" : "bg-gray-400"
             }`}
           ></div>
+
+          <Link href="/about"> Go To Abouut</Link>
+        </div>
+        <div className="bg-gray-500 mt-6">
+          <button onClick={() => setGlobalState("isLight")}>
+            Ubah Nilai Global State
+          </button>
+          <div>
+            <p>Nilai Global State: {globalState}</p>
+          </div>
         </div>
       </div>
     </section>
