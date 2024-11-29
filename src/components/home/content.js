@@ -4,11 +4,9 @@ import CardMusic from "../atoms/cardMusic";
 import ButtonStyleOne from "../atoms/bottonStyleOne";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useGlobalState } from "../../utils/globalState";
 
 export default function Content() {
   const [active, setActive] = useState(false);
-  const { globalState, setGlobalState } = useGlobalState();
 
   const data = [
     {

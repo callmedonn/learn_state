@@ -4,7 +4,8 @@ import cx from "classnames";
 import Header from "../components/layout/header";
 import Sidebar from "../components/layout/sidebar";
 import Footer from "../components/layout/footer";
-import { GlobalStateProvider } from "../utils/globalState";
+import Container from "../components/router";
+import { DarkModeStateProvider } from "../utils/globalState";
 
 export default function RootLayout({ children }) {
   return (
@@ -12,15 +13,15 @@ export default function RootLayout({ children }) {
       <head>
         <title>Layouting Spotify</title>
       </head>
-      <body className={`${cx(poppins, poppins.className)}`}>
-        <GlobalStateProvider>
+      <body className={`${cx(poppins, poppins.className)} bg-white`}>
+        <DarkModeStateProvider>
           <div className="flex">
             <Sidebar />
             <Header />
           </div>
-          <div>{children}</div>
+          <Container>{children}</Container>
           <Footer />
-        </GlobalStateProvider>
+        </DarkModeStateProvider>
       </body>
     </html>
   );

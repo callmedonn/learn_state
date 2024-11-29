@@ -1,31 +1,45 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
-const GlobalStateContext = createContext(null);
+const DarkModeStateContext = createContext(null);
 
-export const useGlobalState = () => {
-  const context = useContext(GlobalStateContext);
+export const useDarkModeState = () => {
+  const context = useContext(DarkModeStateContext);
 
   if (!context) {
-    throw new Error("useGlobalState not defined!");
+    throw new Error("useDarkModeState not defined!");
   }
 
-  const [globalState, setGlobalState] = context;
+  const [darkModeState, setDarkModeState] = context;
 
-  const handleGlobalState = (value) => {
-    setGlobalState(value);
+  const handleDarkModeState = (value) => {
+    setDarkModeState(value);
+
+    if (typeof window !== undefined) {
+      window.localStorage.setItem("darkMode", value);
+    }
   };
 
-  return { globalState: globalState, setGlobalState: handleGlobalState };
+  return {
+    darkModeState: darkModeState,
+    setDarkModeState: handleDarkModeState,
+  };
 };
 
-export const GlobalStateProvider = ({ children, value }) => {
-  const [globalState, setGlobalState] = useState(value || "isDark");
+export const DarkModeStateProvider = ({ children, value }) => {
+  const [darkModeState, setDarkModeState] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      const value = window.localStorage.getItem("darkMode");
+      setDarkModeState(value ? value : "isDark");
+    }
+  }, []);
 
   return (
-    <GlobalStateContext.Provider value={[globalState, setGlobalState]}>
+    <DarkModeStateContext.Provider value={[darkModeState, setDarkModeState]}>
       {children}
-    </GlobalStateContext.Provider>
+    </DarkModeStateContext.Provider>
   );
 };
