@@ -33,7 +33,7 @@ export const DarkModeStateProvider = ({ children, value }) => {
   useEffect(() => {
     if (typeof window !== undefined) {
       const value = window.localStorage.getItem("darkMode");
-      setDarkModeState(value ? value : "isDark");
+      setDarkModeState(value ? value : "isLight");
     }
   }, []);
 

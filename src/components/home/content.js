@@ -7,6 +7,9 @@ import Link from "next/link";
 
 export default function Content() {
   const [active, setActive] = useState(false);
+  const [dataPosts, setDataPosts] = useState([]);
+
+  const url = "https://jsonplaceholder.typicode.com";
 
   const data = [
     {
@@ -50,41 +53,39 @@ export default function Content() {
     setActive(!active);
   };
 
-  useEffect(() => {
-    console.log("tester jalan dong");
+  const getDataPosts = async () => {
+    try {
+      const response = await fetch(`${url}/posts`, {
+        method: "GET",
+      }).then((res) => res.json());
 
-    return () => {
-      console.log("Anda keluar halaman");
-    };
+      const result = response.reverse();
+
+      setDataPosts(result);
+    } catch (error) {
+      alert("Internal Server Error");
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getDataPosts();
   }, []);
 
   return (
     <section className="flex mt-[100px]">
       <div className="w-[20%]"></div>
       <div className="w-[80%]">
-        <div className="grid grid-cols-5 gap-4 py-2">
-          <DataLooping />
-        </div>
-        <div className="bg-blue-100">
-          <h1 className="text-center">Manajemen State (Variabel)</h1>
-          <ButtonStyleOne target={anwarClick} />
-          {active && <p>Hello World</p>}
-          <div
-            className={`w-[200px] h-[200px] ${
-              active ? "bg-red-500" : "bg-gray-400"
-            }`}
-          ></div>
-
-          <Link href="/about"> Go To Abouut</Link>
-        </div>
-        <div className="bg-gray-500 mt-6">
-          <button onClick={() => setGlobalState("isLight")}>
-            Ubah Nilai Global State
-          </button>
-          <div>
-            <p>Nilai Global State: {globalState}</p>
+        {dataPosts.length && (
+          <div className="grid grid-cols-4 gap-4">
+            {dataPosts.map((item, index) => (
+              <div key={index} className="border-2 border-gray-500">
+                <p>{item.title}</p>
+                <p>{item.body}</p>
+              </div>
+            ))}
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

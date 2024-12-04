@@ -10,7 +10,7 @@ export default function Container({ children }) {
         darkModeState === "isDark"
           ? "bg-black text-white"
           : "bg-white text-black"
-      } w-[100vw] h-[100vh] overflow-hidden`}
+      } w-[100vw] h-[100vh] `}
     >
       {children}
     </div>
